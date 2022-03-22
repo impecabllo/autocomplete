@@ -16,12 +16,15 @@ const Autocomplete: React.FC<Props> = ({ url, placeholder, onSelect, valueKey, l
   const [options, setOptions] = useState<Option[]>([])
   const [value, setValue] = useState<string>("")
   const [timeoutTimer, setTimeoutTimer] = useState<number>(0)
+  const [isLoading, setLoading] = useState<boolean>(false)
 
   const handleSelect = (options: Option[]) => {
     setSelectedOptions(options)
   }
 
   const search = () => {
+    setLoading(true)
+
     if (!value) {
       setOptions([])
     }
@@ -32,14 +35,15 @@ const Autocomplete: React.FC<Props> = ({ url, placeholder, onSelect, valueKey, l
       const result = data.reduce((acc: Array<any>, item: any) => {
         if (labelKey) {
           return valueKey
-            ? [...acc, { value: item[valueKey], label: item[labelKey] }]
+            ? [...acc, { ...item, value: item[valueKey], label: item[labelKey] }]
             : [...acc, item]
         }
 
-        return valueKey ? [...acc, { value: item[valueKey] }] : [...acc, item]
+        return valueKey ? [...acc, { ...item, value: item[valueKey] }] : [...acc, item]
       }, [])
 
       setOptions(result)
+      setLoading(false)
     }
 
     axios.get(url)
@@ -78,6 +82,7 @@ const Autocomplete: React.FC<Props> = ({ url, placeholder, onSelect, valueKey, l
     <Dropdown
       inputValue={value}
       onInputChange={value => onChange(value)}
+      loading={isLoading}
       options={filteredOptions}
       selected={selectedOptions}
       onSelect={options => handleSelect(options)}

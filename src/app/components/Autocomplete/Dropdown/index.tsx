@@ -19,6 +19,7 @@ type Props = {
   options: Option[]
   onSelect: (options: Option[]) => void
   onFocus: () => void
+  loading: boolean
 }
 
 const Dropdown: React.FC<Props> = ({
@@ -28,7 +29,8 @@ const Dropdown: React.FC<Props> = ({
   placeholder,
   onFocus,
   onSelect,
-  onInputChange
+  onInputChange,
+  loading
 }) => {
   const [currentValues, setCurrentValues] = useState<Option[]>(selected || [])
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false)
@@ -133,29 +135,35 @@ const Dropdown: React.FC<Props> = ({
       </div>
       <div
         className={classNames(style.dropDownListWrapper, {
-          [style.menuOpen]: isMenuOpen && !!options.length
+          [style.menuOpen]: isMenuOpen && !!options.length || loading
         })}
       >
-        <ul
-          className={style.dropDownList}
-        >
-          {options.map((option: Option, index: number) => (
-            <React.Fragment key={index.toString()}>
-              {"value" in option && option.label !== "" && (
-                <li>
-                  <div
-                    className={style.dropDownListItem}
-                    onClick={() => handleSelect(option)}
-                  >
-                    <div>
-                      {option.label}
+        {loading && !options.length ? (
+          <div className={style.dropDownLoading}>
+            Loading...
+          </div>
+        ) : (
+          <ul
+            className={style.dropDownList}
+          >
+            {options.map((option: Option, index: number) => (
+              <React.Fragment key={index.toString()}>
+                {"value" in option && option.label !== "" && (
+                  <li>
+                    <div
+                      className={style.dropDownListItem}
+                      onClick={() => handleSelect(option)}
+                    >
+                      <div>
+                        {option.label}
+                      </div>
                     </div>
-                  </div>
-                </li>
-              )}
-            </React.Fragment>
-          ))}
-        </ul>
+                  </li>
+                )}
+              </React.Fragment>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   )
