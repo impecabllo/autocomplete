@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import classNames from "classnames"
 import xImage from "./x_image.png"
 import arrowBottom from "./arrow_bottom.png"
+import spinner from "./spinner.gif"
 
 import style from "./Dropdown.module.scss"
 
@@ -17,6 +18,7 @@ type Props = {
   selected: Option[]
   placeholder?: string
   options: Option[]
+  loading: boolean
   onSelect: (options: Option[]) => void
   onFocus: () => void
 }
@@ -26,6 +28,7 @@ const Dropdown: React.FC<Props> = ({
   inputValue,
   options,
   placeholder,
+  loading,
   onFocus,
   onSelect,
   onInputChange
@@ -127,9 +130,15 @@ const Dropdown: React.FC<Props> = ({
             />
           </div>
         </div>
-        <button type="button" className={style.dropDownButton} onClick={toggleMenu}>
-          <img alt="arrow_bottom" src={arrowBottom} width={12} />
-        </button>
+        {loading ? (
+          <button type="button" className={classNames(style.dropDownButton, style.dropDownSpinner)}>
+            <img alt="spinner" src={spinner} width={16} />
+          </button>
+        ) : (
+          <button type="button" className={style.dropDownButton} onClick={toggleMenu}>
+            <img alt="arrow_bottom" src={arrowBottom} width={12} />
+          </button>
+        )}
       </div>
       <div
         className={classNames(style.dropDownListWrapper, {

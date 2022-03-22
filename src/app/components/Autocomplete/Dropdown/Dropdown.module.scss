@@ -66,6 +66,11 @@
       background: transparent;
       border: 0;
       cursor: pointer;
+
+      &.dropDownSpinner {
+        cursor: initial;
+        padding-top: 12px;
+      }
     }
   }
 

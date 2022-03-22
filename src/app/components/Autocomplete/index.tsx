@@ -16,12 +16,14 @@ const Autocomplete: React.FC<Props> = ({ url, placeholder, onSelect, valueKey, l
   const [options, setOptions] = useState<Option[]>([])
   const [value, setValue] = useState<string>("")
   const [timeoutTimer, setTimeoutTimer] = useState<number>(0)
+  const [isLoading, setLoading] = useState<boolean>(false)
 
   const handleSelect = (options: Option[]) => {
     setSelectedOptions(options)
   }
 
   const search = () => {
+    setLoading(true)
     if (!value) {
       setOptions([])
     }
@@ -42,11 +44,14 @@ const Autocomplete: React.FC<Props> = ({ url, placeholder, onSelect, valueKey, l
       setOptions(result)
     }
 
+    setLoading(true)
+
     axios.get(url)
       .then(res => {
         const data = res.data
 
         dataToOptions(data)
+        setLoading(false)
       })
 
     return true
@@ -79,6 +84,7 @@ const Autocomplete: React.FC<Props> = ({ url, placeholder, onSelect, valueKey, l
       inputValue={value}
       onInputChange={value => onChange(value)}
       options={filteredOptions}
+      loading={isLoading}
       selected={selectedOptions}
       onSelect={options => handleSelect(options)}
       onFocus={onFocus}
