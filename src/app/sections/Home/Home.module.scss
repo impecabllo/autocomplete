@@ -1,0 +1,31 @@
+.wrapper {
+  margin: 48px auto;
+  padding: 24px;
+  background: #eee;
+  width: calc(100vw - 40px);
+  box-sizing: border-box;
+
+  @media only screen and (min-width: 1024px) {
+    width: calc(100vw - 120px);
+  }
+
+  .title {
+    margin-bottom: 24px;
+    margin-top: 0;
+  }
+
+  .content {
+    display: grid;
+    grid-row-gap: 24px;
+    margin-bottom: 56px;
+
+    @media only screen and (min-width: 1024px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-column-gap: 24px;
+    }
+
+    ul {
+      padding: 0;
+    }
+  }
+}
