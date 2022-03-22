@@ -1,6 +1,7 @@
 {
   "name": "autocomplete",
   "version": "0.1.0",
+  "homepage": "https://impecabllo.github.io/autocomplete",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
@@ -12,6 +13,7 @@
     "@types/react-dom": "^17.0.14",
     "axios": "^0.26.1",
     "classnames": "^2.3.1",
+    "gh-pages": "^3.2.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
@@ -23,7 +25,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
